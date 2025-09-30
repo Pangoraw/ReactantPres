@@ -14,12 +14,18 @@
 		<link rel="stylesheet" href="plugin/highlight/zenburn.css">
 
         <style>
+            @font-face {
+                font-family: JuliaMono;
+                src: url(/fonts/JuliaMono-Medium.woff2);
+            }
+
             .slides h1, .slides h2, .slides h3, .slides h4 {
                 text-transform: none;
             }
 
             pre > code {
                 border-radius: 5px;
+                font-family: "JuliaMono", Arial !important;
             }
         </style>
 	</head>
@@ -332,7 +338,7 @@
                         - Device Retargeting.
                     - Leverage the XLA runtime for evaluation.
                     - Compatible with mutation, control-flow, autodiff (Enzyme).
-                    - Multi-device execution.
+                    - Multi-device execution (Sharding & MPI).
                     - JAX interoperability.
 
                 </section>
