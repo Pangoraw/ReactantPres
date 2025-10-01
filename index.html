@@ -52,6 +52,8 @@
                     <img src="authors.png" alt="">
                 </section>
                 <section>
+                    <p>Optimizing with high-level knowledge</p>
+
                     <pre class="fragment" >
                     <code data-trim class="language-julia">
                     function f(x::Symmetric)
@@ -91,23 +93,28 @@
 
                 </section>
                 <section>
-                    <pre>
-                    <code data-trim class="language-julia">
-                        julia> @code_typed f(x)
-                    </code>
-                    </pre>
-                    <pre><code data-trim>
-                    CodeInfo(
-                    1 ─ %1 = invoke Main.:*(x::Symmetric{Float32, Matrix{Float32}}, x::Symmetric{Float32, Matrix{Float32}})::Matrix{Float32}
-                    │   %2 = invoke Main.:*(x::Symmetric{Float32, Matrix{Float32}}, x::Symmetric{Float32, Matrix{Float32}})::Matrix{Float32}
-                    │   %3 = %new(Transpose{Float32, Matrix{Float32}}, %2)::Transpose{Float32, Matrix{Float32}}
-                    │   %4 = invoke Main.:+(%1::Matrix{Float32}, %3::Transpose{Float32, Matrix{Float32}})::Matrix{Float32}
-                    └──      return %4
-                    </code>
-                    </pre>
+                    <p>Why does the Julia compiler does not optimize?</p>
+                    <div class=fragment>
+                      <pre>
+                      <code data-trim class="language-julia">
+                          julia> @code_typed f(x)
+                      </code>
+                      </pre>
+                      <pre><code data-trim>
+                      CodeInfo(
+                      1 ─ %1 = invoke Main.:*(x::Symmetric{Float32, Matrix{Float32}}, x::Symmetric{Float32, Matrix{Float32}})::Matrix{Float32}
+                      │   %2 = invoke Main.:*(x::Symmetric{Float32, Matrix{Float32}}, x::Symmetric{Float32, Matrix{Float32}})::Matrix{Float32}
+                      │   %3 = %new(Transpose{Float32, Matrix{Float32}}, %2)::Transpose{Float32, Matrix{Float32}}
+                      │   %4 = invoke Main.:+(%1::Matrix{Float32}, %3::Transpose{Float32, Matrix{Float32}})::Matrix{Float32}
+                      └──      return %4
+                      </code>
+                      </pre>
+                    </div>
                 </section>
 
                 <section>
+                    <p>Why does the Julia compiler does not optimize?</p>
+
                     <pre>
                     <code data-trim class="language-julia">
                     julia> @code_typed x * x
@@ -321,7 +328,7 @@
                 <section data-markdown>
                     ### How Reactant works?
 
-                    1. Capture Julia array programs in MLIR.
+                    1. Capture Julia array programs in MLIR (tracing).
                     1. Optimize, run AD, optimize again.
                     1. Evaluate on the XLA runtime (used by JAX/Tensorflow).
                 </section>
@@ -341,7 +348,7 @@
                 </section>
 
                 <section>
-                    <h3>Device retargeting from CUDA</h3>
+                    <h3>CUDA kernels on other devices</h3>
 
                     <pre><code data-trim data-line-numbers="0-12|14|16-19|21|23-26" class="language-julia">
                     using Reactant, CUDA
@@ -401,6 +408,13 @@
 
                     result = @jit sq_fwd(x)
                     </code></pre>
+                </section>
+
+                <section>
+                    <h3>Performance (Lux.jl)</h3>
+
+                    <img src="resnet_speedups.svg" alt="">
+
                 </section>
 
                 <section>
